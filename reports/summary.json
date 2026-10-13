@@ -1,0 +1,36 @@
+{
+  "delivered_orders": 96470,
+  "gmv_brl": 13220248.93,
+  "late_orders": 6534,
+  "reviewed_orders": 95824,
+  "mean_delay_days": -11.875888877371203,
+  "late": {
+    "breakdown": "delivery_group",
+    "delivery_group": "Late",
+    "orders": "6381",
+    "avg_delay_days": "10.518414041686256",
+    "avg_review_score": "2.270490518727472",
+    "low_review_pct": "62.419683435198245"
+  },
+  "on_time": {
+    "breakdown": "delivery_group",
+    "delivery_group": "On time / early",
+    "orders": "89443",
+    "avg_delay_days": "-13.513366054358642",
+    "avg_review_score": "4.290386055923885",
+    "low_review_pct": "9.267354628087162"
+  },
+  "repeat": {
+    "customers": "93350",
+    "repeat_customers": "2801",
+    "repeat_purchase_pct": "3.001",
+    "completed_orders": "96470"
+  },
+  "stratified": {
+    "cells": "73",
+    "late_orders": "4858",
+    "ontime_orders": "55327",
+    "weighted_score_gap": "1.9726774729798955",
+    "cells_with_lower_late_score": "73"
+  }
+}

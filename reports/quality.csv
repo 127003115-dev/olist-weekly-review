@@ -1,0 +1,21 @@
+check,description,phase,failing_rows,action
+01_order_keys,Orders with null or duplicate IDs,raw,0,abort
+02_customer_keys,Customers with missing identity or duplicate keys,raw,0,abort
+03_orphan_customers,Orders without a matching customer,raw,0,abort
+07_review_scores,Reviews outside the integer 1-5 range,raw,0,abort
+08_item_keys,Duplicate order/item composite keys,raw,0,abort
+09_orphan_items,"Items without order, product or seller",raw,0,abort
+12_order_timestamps,Missing or unparseable mandatory order timestamps,raw,0,abort
+products_keys,Invalid products keys,raw,0,abort
+sellers_keys,Invalid sellers keys,raw,0,abort
+translation_keys,Invalid translation keys,raw,0,abort
+payment_keys,Invalid payment keys,raw,0,abort
+payment_order_fk,Payment without order,raw,0,abort
+04_delivery_chronology,Delivery before purchase,staging/mart,0,quarantine
+05_payment_reconciliation,Payment differs from items plus freight by more than BRL 1,staging/mart,250,flag
+06_delivered_missing_date,Delivered orders missing actual delivery timestamp,staging/mart,8,quarantine
+10_missing_payment,Delivered orders with no payment record,staging/mart,1,flag
+11_missing_review,Delivered orders with no review,staging/mart,646,flag
+13_negative_money,Negative or missing item/payment money,staging/mart,0,abort
+14_clean_delivery_alarm,14_clean_delivery_alarm,publication,0,abort
+15_mart_grain_alarm,15_mart_grain_alarm,publication,0,abort

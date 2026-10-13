@@ -1,0 +1,2 @@
+# Optional scheduler, separate Linux/WSL environment; see README constraints link.
+apache-airflow==2.10.5

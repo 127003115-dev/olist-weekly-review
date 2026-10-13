@@ -1,0 +1,54 @@
+{
+  "01_order_keys": {
+    "label": "Orders with null or duplicate IDs",
+    "action": "abort"
+  },
+  "02_customer_keys": {
+    "label": "Customers with missing identity or duplicate keys",
+    "action": "abort"
+  },
+  "03_orphan_customers": {
+    "label": "Orders without a matching customer",
+    "action": "abort"
+  },
+  "04_delivery_chronology": {
+    "label": "Delivery before purchase",
+    "action": "quarantine"
+  },
+  "05_payment_reconciliation": {
+    "label": "Payment differs from items plus freight by more than BRL 1",
+    "action": "flag"
+  },
+  "06_delivered_missing_date": {
+    "label": "Delivered orders missing actual delivery timestamp",
+    "action": "quarantine"
+  },
+  "07_review_scores": {
+    "label": "Reviews outside the integer 1-5 range",
+    "action": "abort"
+  },
+  "08_item_keys": {
+    "label": "Duplicate order/item composite keys",
+    "action": "abort"
+  },
+  "09_orphan_items": {
+    "label": "Items without order, product or seller",
+    "action": "abort"
+  },
+  "10_missing_payment": {
+    "label": "Delivered orders with no payment record",
+    "action": "flag"
+  },
+  "11_missing_review": {
+    "label": "Delivered orders with no review",
+    "action": "flag"
+  },
+  "12_order_timestamps": {
+    "label": "Missing or unparseable mandatory order timestamps",
+    "action": "abort"
+  },
+  "13_negative_money": {
+    "label": "Negative or missing item/payment money",
+    "action": "abort"
+  }
+}

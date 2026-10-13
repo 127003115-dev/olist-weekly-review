@@ -1,0 +1,11 @@
+{
+  "fixture_tests_passed": 14,
+  "full_data_idempotency": true,
+  "strict_full_data_alarm_exit_code": 1,
+  "strict_failure_preserved_database": true,
+  "report_pages": 5,
+  "charts_visually_verified": 4,
+  "order_item_gmv_reconciled": true,
+  "sqlite_integrity": "ok",
+  "airflow": "syntax checked; service not executed"
+}

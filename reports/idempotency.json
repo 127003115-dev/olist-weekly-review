@@ -1,0 +1,6 @@
+{
+  "test": "full snapshot rebuild",
+  "before_sha256": "3cf1523ba13d21bb406571b1fa700636696647648e73784c667ebb85d0b7ecba",
+  "after_sha256": "3cf1523ba13d21bb406571b1fa700636696647648e73784c667ebb85d0b7ecba",
+  "passed": true
+}

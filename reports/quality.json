@@ -1,0 +1,158 @@
+{
+  "source_counts": {
+    "orders": 99441,
+    "items": 112650,
+    "payments": 103886,
+    "reviews": 99224,
+    "customers": 99441,
+    "products": 32951,
+    "sellers": 3095,
+    "geolocation": 1000163,
+    "translation": 71
+  },
+  "checks": [
+    {
+      "check": "01_order_keys",
+      "description": "Orders with null or duplicate IDs",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "02_customer_keys",
+      "description": "Customers with missing identity or duplicate keys",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "03_orphan_customers",
+      "description": "Orders without a matching customer",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "07_review_scores",
+      "description": "Reviews outside the integer 1-5 range",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "08_item_keys",
+      "description": "Duplicate order/item composite keys",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "09_orphan_items",
+      "description": "Items without order, product or seller",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "12_order_timestamps",
+      "description": "Missing or unparseable mandatory order timestamps",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "products_keys",
+      "description": "Invalid products keys",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "sellers_keys",
+      "description": "Invalid sellers keys",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "translation_keys",
+      "description": "Invalid translation keys",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "payment_keys",
+      "description": "Invalid payment keys",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "payment_order_fk",
+      "description": "Payment without order",
+      "phase": "raw",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "04_delivery_chronology",
+      "description": "Delivery before purchase",
+      "phase": "staging/mart",
+      "failing_rows": 0,
+      "action": "quarantine"
+    },
+    {
+      "check": "05_payment_reconciliation",
+      "description": "Payment differs from items plus freight by more than BRL 1",
+      "phase": "staging/mart",
+      "failing_rows": 250,
+      "action": "flag"
+    },
+    {
+      "check": "06_delivered_missing_date",
+      "description": "Delivered orders missing actual delivery timestamp",
+      "phase": "staging/mart",
+      "failing_rows": 8,
+      "action": "quarantine"
+    },
+    {
+      "check": "10_missing_payment",
+      "description": "Delivered orders with no payment record",
+      "phase": "staging/mart",
+      "failing_rows": 1,
+      "action": "flag"
+    },
+    {
+      "check": "11_missing_review",
+      "description": "Delivered orders with no review",
+      "phase": "staging/mart",
+      "failing_rows": 646,
+      "action": "flag"
+    },
+    {
+      "check": "13_negative_money",
+      "description": "Negative or missing item/payment money",
+      "phase": "staging/mart",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "14_clean_delivery_alarm",
+      "description": "14_clean_delivery_alarm",
+      "phase": "publication",
+      "failing_rows": 0,
+      "action": "abort"
+    },
+    {
+      "check": "15_mart_grain_alarm",
+      "description": "15_mart_grain_alarm",
+      "phase": "publication",
+      "failing_rows": 0,
+      "action": "abort"
+    }
+  ],
+  "review_rows_removed": 551,
+  "quarantined_orders": 8,
+  "mart_rows": 99441
+}

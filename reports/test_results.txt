@@ -1,0 +1,61 @@
+test_customer_relationship_alarm (test_pipeline.PipelineAlarms.test_customer_relationship_alarm) ... DQ 03_orphan_customers: 1 failing rows; action=abort
+Pipeline FAILED; previous published database remains intact
+Traceback (most recent call last):
+  File "C:\Users\tulas\Documents\Codex\2026-10-13\take-home-assignment-weekly-business-review\outputs\olist-weekly-review\src\pipeline.py", line 112, in build
+    raise ValueError('Raw quality ALARM: '+', '.join(r['check'] for r in results if r['failing_rows']))
+ValueError: Raw quality ALARM: 03_orphan_customers
+ok
+test_duplicate_order_alarm (test_pipeline.PipelineAlarms.test_duplicate_order_alarm) ... DQ 01_order_keys: 1 failing rows; action=abort
+Pipeline FAILED; previous published database remains intact
+Traceback (most recent call last):
+  File "C:\Users\tulas\Documents\Codex\2026-10-13\take-home-assignment-weekly-business-review\outputs\olist-weekly-review\src\pipeline.py", line 112, in build
+    raise ValueError('Raw quality ALARM: '+', '.join(r['check'] for r in results if r['failing_rows']))
+ValueError: Raw quality ALARM: 01_order_keys
+ok
+test_happy_path (test_pipeline.PipelineAlarms.test_happy_path) ... ok
+test_invalid_score_still_alarms_under_policy (test_pipeline.PipelineAlarms.test_invalid_score_still_alarms_under_policy) ... DQ 07_review_scores: 1 failing rows; action=abort
+Pipeline FAILED; previous published database remains intact
+Traceback (most recent call last):
+  File "C:\Users\tulas\Documents\Codex\2026-10-13\take-home-assignment-weekly-business-review\outputs\olist-weekly-review\src\pipeline.py", line 112, in build
+    raise ValueError('Raw quality ALARM: '+', '.join(r['check'] for r in results if r['failing_rows']))
+ValueError: Raw quality ALARM: 07_review_scores
+ok
+test_policy_flags_and_quarantines (test_pipeline.PipelineAlarms.test_policy_flags_and_quarantines) ... DQ 05_payment_reconciliation: 1 failing rows; action=flag
+DQ 06_delivered_missing_date: 1 failing rows; action=quarantine
+ok
+test_strict_payment_alarm_and_atomicity (test_pipeline.PipelineAlarms.test_strict_payment_alarm_and_atomicity) ... DQ 05_payment_reconciliation: 1 failing rows; action=flag
+Pipeline FAILED; previous published database remains intact
+Traceback (most recent call last):
+  File "C:\Users\tulas\Documents\Codex\2026-10-13\take-home-assignment-weekly-business-review\outputs\olist-weekly-review\src\pipeline.py", line 122, in build
+    raise ValueError('Quality ALARM: '+', '.join(f"{r['check']}={r['failing_rows']}" for r in violations)+
+ValueError: Quality ALARM: 05_payment_reconciliation=1. See reports/quality.csv. After reviewing known source anomalies, use --apply-source-policy to flag/quarantine them.
+ok
+test_delay_reviews (test_sql.Queries.test_delay_reviews) ... ok
+test_dense_rank_ties (test_sql.Queries.test_dense_rank_ties) ... ok
+test_mart_preaggregates_items_and_payments (test_sql.Queries.test_mart_preaggregates_items_and_payments) ... ok
+test_missing_column_clear_error (test_sql.Queries.test_missing_column_clear_error) ... Pipeline FAILED; previous published database remains intact
+Traceback (most recent call last):
+  File "C:\Users\tulas\Documents\Codex\2026-10-13\take-home-assignment-weekly-business-review\outputs\olist-weekly-review\src\pipeline.py", line 99, in build
+    counts=load_raw(con,raw_dir)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tulas\Documents\Codex\2026-10-13\take-home-assignment-weekly-business-review\outputs\olist-weekly-review\src\pipeline.py", line 39, in load_raw
+    raise ValueError(f'{filename}: missing expected columns {sorted(missing)}')
+ValueError: olist_orders_dataset.csv: missing expected columns ['customer_id', 'order_approved_at', 'order_delivered_carrier_date', 'order_delivered_customer_date', 'order_estimated_delivery_date', 'order_purchase_timestamp', 'order_status']
+ok
+test_missing_file_fails_preserves_database (test_sql.Queries.test_missing_file_fails_preserves_database) ... Pipeline FAILED; previous published database remains intact
+Traceback (most recent call last):
+  File "C:\Users\tulas\Documents\Codex\2026-10-13\take-home-assignment-weekly-business-review\outputs\olist-weekly-review\src\pipeline.py", line 99, in build
+    counts=load_raw(con,raw_dir)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tulas\Documents\Codex\2026-10-13\take-home-assignment-weekly-business-review\outputs\olist-weekly-review\src\pipeline.py", line 33, in load_raw
+    raise ValueError(f'Missing required file: {path}. Extract the Olist ZIP into {raw_dir}.')
+ValueError: Missing required file: C:\Users\tulas\Documents\Codex\2026-10-13\take-home-assignment-weekly-business-review\outputs\olist-weekly-review\data\tmp0fsco2ly\olist_orders_dataset.csv. Extract the Olist ZIP into C:\Users\tulas\Documents\Codex\2026-10-13\take-home-assignment-weekly-business-review\outputs\olist-weekly-review\data\tmp0fsco2ly.
+ok
+test_month_gaps_and_zero_base (test_sql.Queries.test_month_gaps_and_zero_base) ... ok
+test_repeat_identity_and_cancellation (test_sql.Queries.test_repeat_identity_and_cancellation) ... ok
+test_rolling_zero_days (test_sql.Queries.test_rolling_zero_days) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 2.936s
+
+OK
