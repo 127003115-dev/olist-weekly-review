@@ -8,28 +8,27 @@ Brazilian E-Commerce Public Dataset by Olist. No pandas is used for SQL analysis
 are 2.27 and 4.29 respectively. A controlled delivery exception-desk pilot is
 recommended; these historical associations do not prove causality.
 
-## Quick start in VS Code (Windows)
+## Installation and execution
 
-Prerequisite: Python **3.12**, VS Code, and the Olist dataset ZIP from
+Prerequisites: Python **3.12** and the Olist dataset ZIP from
 [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce).
 SQLite is included with Python; no database server or Kaggle API token is needed.
 
-1. Open this folder (`olist-weekly-review`) in VS Code: **File > Open Folder**.
-2. Open **Terminal > New Terminal** in the project root.
-3. Create a virtual environment and install report dependencies:
+Run the following commands from the repository root in a PowerShell terminal.
+
+1. Create a virtual environment and install report dependencies:
 
    ```powershell
    py -3.12 -m venv .venv
    .\.venv\Scripts\python.exe -m pip install -r requirements.txt
    ```
 
-4. Extract all nine CSVs directly into `data/raw/`. For your supplied ZIP:
+2. Extract all nine CSV files from the downloaded dataset into `data/raw/`.
+   The directory should contain the original CSV filenames, without an additional
+   enclosing folder. Raw data is excluded from version control.
 
-   ```powershell
-   Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\archive (1).zip" -DestinationPath data/raw -Force
-   ```
-
-5. Review the source anomalies listed below, then run the documented source policy:
+3. Run ingestion with the documented anomaly policy, export the SQL results,
+   and generate the report:
 
    ```powershell
    .\.venv\Scripts\python.exe src/pipeline.py --apply-source-policy
@@ -37,7 +36,7 @@ SQLite is included with Python; no database server or Kaggle API token is needed
    .\.venv\Scripts\python.exe src/report.py
    ```
 
-6. Open `reports/weekly_business_review.pdf`. The report is exactly five pages.
+4. Open `reports/weekly_business_review.pdf`. The report is exactly five pages.
    Query outputs are in `reports/results/`; quality counts are in
    `reports/quality.csv` and `reports/quality.json`.
 
@@ -57,7 +56,8 @@ known anomalies. Every check with nonzero results is an alarm in strict mode.
 `--apply-source-policy` is an explicit, reviewed alternative, not a silent bypass:
 it permits only checks classified as `flag` or `quarantine` in
 `sql/quality/checks.json`. All structural and clean-layer checks still alarm.
-Never use that switch blindly on a new dataset; inspect the audit first.
+The anomaly policy applies to the documented source snapshot. Changes in source
+data require a new review of the quality audit before applying this policy.
 
 | Source finding | Failing rows | Treatment |
 |---|---:|---|
@@ -125,7 +125,7 @@ replaces `data/olist.sqlite`. It never appends raw rows. On any failure, the pre
 database stays intact and the temporary database is removed. Logs include each
 load, transformation and SQL check; missing files/columns show the exact filename
 and missing columns. Do not run two writers concurrently on the same database.
-Full snapshot rebuilds suit this static assignment; distributed ingestion and
+Full snapshot rebuilds suit this static dataset; distributed ingestion and
 incremental CDC would be needed for a much larger changing marketplace.
 
 ## Part C: SQL-only answers
@@ -188,10 +188,14 @@ missing files/columns, duplicate IDs, orphan customers, invalid review scores,
 strict quality alarms and preserving the old database on failure. The full-data
 idempotency check rebuilds once after the initial successful run, compares SHA-256
 of the complete SQLite files and writes `reports/idempotency.json`.
-Full-source checks and report generation were executed on the supplied ZIP.
+Validation on the source snapshot passed all 14 fixture tests. A second full
+pipeline run produced a byte-identical database. Strict mode returned status 1
+for the documented anomalies and preserved the previous published database.
+Evidence is stored in `reports/test_results.txt`, `reports/idempotency.json`
+and `reports/validation.json`.
 The optional Airflow scheduler has not been executed in a running Airflow service.
 
-## Optional bonus: daily Airflow DAG
+## Optional daily scheduling with Airflow
 
 `dags/olist_daily.py` schedules ingestion and SQL export at **02:00 UTC daily**
 (07:30 India time), with catchup off and one active run. Failures mark the task
@@ -219,27 +223,25 @@ must inherit `OLIST_PROJECT_DIR` and have read/write access to the project.
 The DAG explicitly uses the reviewed source policy. Scheduler service tests are
 left for that environment; syntax has been checked locally.
 
-## Upload to GitHub and submit
+## Repository contents
 
-1. In VS Code, open **Source Control**. This local workspace is already initialized;
-   if you extracted the submission ZIP, select **Initialize Repository** first.
-2. Stage the code, SQL, README, requirements, tests, DAG and reports. The provided
-   `.gitignore` excludes the large raw CSVs, SQLite database, environments and logs.
-3. Enter a commit message such as `Add Olist pipeline and weekly business review`.
-4. Select **Publish to GitHub**, sign in, and choose the required visibility.
-5. Open the repository on GitHub and verify that `reports/weekly_business_review.pdf`
-   and the SQL/source files are present. Submit that repository URL and the PDF if
-   your course asks for it separately. The ZIP is a convenience copy; upload its
-   extracted contents, not just the ZIP file.
+| Directory / file | Purpose |
+|---|---|
+| `src/` | Ingestion, SQL execution, report generation and idempotency verification |
+| `sql/quality/` | Data-quality queries and anomaly-policy configuration |
+| `sql/analysis/` | Business analysis and weekly metric queries |
+| `tests/` | Synthetic fixtures for query correctness and pipeline failure handling |
+| `dags/` | Optional daily Airflow DAG |
+| `reports/` | PDF, charts, query results and validation evidence |
+| `requirements.txt` | Chart and report dependencies |
 
-## Viva notes and attribution
+The `.gitignore` excludes raw CSVs, generated databases, virtual environments and
+runtime logs. The included report and query outputs can be inspected without
+running the pipeline; regeneration requires downloading the source dataset.
 
-Read `docs/viva_notes.md` before submitting. Be ready to explain how you prevent
-join fan-out, why customer_unique_id matters, how alarms differ from reviewed
-source policy, what the revenue definition excludes, and why a pilot is needed.
-This implementation and analysis were created with AI assistance for this
-assignment. No public notebook code was used. Follow your course's rules on
-disclosing assistance and adapt the solution after understanding it.
+## Attribution
+
+Implementation and analysis were prepared with AI assistance.
 
 Data source: Olist, *Brazilian E-Commerce Public Dataset by Olist*, Kaggle,
 2016-2018. Raw data is not redistributed in the submission bundle; download it
